@@ -36,6 +36,9 @@ func main() {
 	const scaleOffset = 2
 	const debug = false
 
+	maxValue := math.Pow(2.0, bitPerSample-1) - 1
+	minValue := -1 * maxValue
+
 	t := 0
 	samples := make([]wav.Sample, seconds*samplingRate)
 	for i := range samples {
@@ -58,6 +61,9 @@ func main() {
 		y := 32767.0 * math.Sin(x*2.0*math.Pi) // キモ
 		samples[i].Values[0] = int(math.Round(y))
 		samples[i].Values[1] = int(math.Round(y))
+
+		samples[i].Values[0] = int(math.Round(math.Min(math.Max(y, minValue), maxValue)))
+		samples[i].Values[1] = samples[i].Values[0]
 	}
 
 	w := wav.NewWriter(file, uint32(len(samples)), channelCount, samplingRate, bitPerSample)
