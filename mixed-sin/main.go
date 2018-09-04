@@ -58,8 +58,8 @@ func main() {
 		}
 
 		x := float64(i) * toneFrq / samplingRate
-		y := 16383.0*math.Sin(x*2.0*math.Pi) + // 基音
-			8192.0*math.Sin((60*2.0*math.Pi/360.0)+2.0*x*2.0*math.Pi) // 倍音
+		y := (maxValue*0.5)*math.Sin(x*2.0*math.Pi) + // 基音
+			(maxValue*0.3)*math.Sin((60*2.0*math.Pi/360.0)+2.0*x*2.0*math.Pi) // 倍音
 
 		samples[i].Values[0] = int(math.Round(math.Min(math.Max(y, minValue), maxValue)))
 		samples[i].Values[1] = samples[i].Values[0]
